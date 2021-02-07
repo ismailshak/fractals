@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	rows       = 400
-	columns    = 400
+	rows       = 5000
+	columns    = 5000
 	minReal    = -2.0
 	maxReal    = 1.0
 	minIm      = -1.2
@@ -57,7 +57,8 @@ func render(img *image.RGBA) {
 
 				if zRealSquared+zImSquared > 4 {
 					isInside = false
-					img.SetRGBA(x, y, color.RGBA{R: 255, G: 255, B: 255, A: 255})
+					color := getColorBasedOnIteration(n, maxIterations)
+					img.SetRGBA(x, y, color)
 					break
 				}
 				zIm = 2.0*zReal*zIm + cIm
@@ -77,4 +78,14 @@ func calculateComplexReal(x int) float64 {
 
 func calculateComplexImaginary(y int) float64 {
 	return minIm + float64(y)*imFactor
+}
+
+func getColorBasedOnIteration(n, maxIterations int) color.RGBA {
+	lowerHalf := (maxIterations / 2) - 1
+
+	if n <= lowerHalf {
+		return color.RGBA{R: 0, G: 0, B: 0, A: 255}
+	} else {
+		return color.RGBA{R: 255, G: 0, B: 0, A: 255}
+	}
 }
