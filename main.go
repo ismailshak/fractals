@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	rows       = 5000
-	columns    = 5000
+	rows       = 8000
+	columns    = 8000
 	minReal    = -2.0
 	maxReal    = 1.0
 	minIm      = -1.2
@@ -49,7 +49,7 @@ func render(img *image.RGBA) {
 
 			zReal, zIm := cReal, cIm
 
-			maxIterations := 100
+			maxIterations := 500
 			isInside := true
 
 			for n := 0; n < maxIterations; n++ {
@@ -81,11 +81,7 @@ func calculateComplexImaginary(y int) float64 {
 }
 
 func getColorBasedOnIteration(n, maxIterations int) color.RGBA {
-	lowerHalf := (maxIterations / 2) - 1
-
-	if n <= lowerHalf {
-		return color.RGBA{R: 0, G: 0, B: 0, A: 255}
-	} else {
-		return color.RGBA{R: 255, G: 0, B: 0, A: 255}
-	}
+	percentage := (float64(n) / float64(maxIterations)) * 100.0
+	scaledRed := uint8(255 * percentage)
+	return color.RGBA{R: scaledRed, G: 0, B: 0, A: 255}
 }
