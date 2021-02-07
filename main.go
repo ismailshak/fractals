@@ -25,11 +25,11 @@ func main() {
 	render(img)
 	log.Println("Render complete.")
 	log.Println("Encoding image...")
-	f, err := os.Create("result.png")
+	file, err := os.Create("result.png")
 	if err != nil {
 		panic(err)
 	}
-	err = png.Encode(f, img)
+	err = png.Encode(file, img)
 	if err != nil {
 		panic(err)
 	}
@@ -37,7 +37,7 @@ func main() {
 }
 
 /*
-	z = z2 + c
+	z(k+1) = z(k)^2 + c
 	- breaking up complex numbers by their real and imaginary parts
 */
 func render(img *image.RGBA) {
@@ -49,7 +49,7 @@ func render(img *image.RGBA) {
 
 			zReal, zIm := cReal, cIm
 
-			maxIterations := 30
+			maxIterations := 100
 			isInside := true
 
 			for n := 0; n < maxIterations; n++ {
